@@ -1,0 +1,113 @@
+package bài1;
+	import java.text.NumberFormat;
+	import java.util.Locale;
+	import java.util.Scanner;
+	public class Account {
+	private Double sotien;
+	private Integer sotk;
+	private String tentk;
+	private String trangthai;
+	private Double lai=0.035;
+	Scanner in = new Scanner(System.in);
+	public Account() {
+	}
+	public Account(Integer sotk, String tentk, Double sotien) {
+		this.sotk=sotk;
+		this.tentk=tentk;
+		this.sotien=sotien;
+	}
+
+	public Double getSotien() {
+		return sotien;
+	}
+	public Integer getSotk() {
+		return sotk;
+	}
+	public String getTentk() {
+		return tentk;
+	}
+	public String getTrangthai() {
+		return trangthai;
+	}
+
+	public void setSotien(Double rut) {
+		Double sotien;
+		System.out.println("Nhap so tien:");
+		sotien = in.nextDouble();
+		if(sotien>=50) {
+			this.sotien=sotien;
+		}else {
+			sotien=50.0;
+		System.out.println("So tien khong hop le");
+		System.out.println("So tien hien tai la:"+sotien);
+		}
+	}
+	public void setSotk() {
+		Integer stk;
+		System.out.println("Nhap so tk:");
+		stk = in.nextInt();
+		if(sotk>0 && sotk!=999999) {
+		this.sotk = stk;
+		}else {
+		sotk=999999;
+		System.out.println("So tai khoan khong hop le");
+		System.out.println("So tai khoan hien tai la:"+sotk);
+		}
+	}
+	public void setTentk() {
+		String tentk;
+		System.out.println("Nhap ten tk:");
+		tentk = in.nextLine();
+		if(tentk!=""&&tentk!=" ") {  
+		this.tentk = tentk;
+	    }else {
+	    tentk="chua xac dinh";
+	    System.out.println("Ten tai khoan khong hop le");
+	    System.out.println("Ten tai khoan hien tai la:"+tentk);
+	    }
+	}
+
+
+	public String toString() {
+		Locale vt = new Locale("vi","vn");
+		NumberFormat formt = NumberFormat.getCurrencyInstance(vt);
+		String Sotien = formt.format(sotien);
+		return "Ten tk:" + tentk + "So tk:" + sotk + "So tien:" + sotien;
+	}
+	public Account(String tentk, Integer sotk) {
+		setSotien(50.0);
+	}
+	public void naptien() {
+		Double nap;
+		System.out.println("Nhap so tien nap:");
+		nap = in.nextDouble();
+		if(nap<0) {
+			System.out.println("Vui long nhap lai");
+		}else {
+		setSotien(nap);
+		sotien = sotien + nap;
+		}
+	}
+	public void ruttien() {
+		Double rut;
+		System.out.println("Nhap so tien rut:");
+		rut = in.nextDouble();
+		if(rut<0||rut>sotien) {
+			System.out.println("So tien phai lon hon 0 va be hon"+sotien);
+		}else {
+		setSotien(rut);
+		sotien = sotien - rut;
+		}
+	}
+	public void daohan() {
+		sotien = sotien + sotien*lai;
+	}
+	public void nhaptk() {
+		System.out.println("Nhap so tk:");
+		sotk = in.nextInt();
+		System.out.println("Nhap ten tk:");
+		tentk = in.nextLine();
+		System.out.println("Nhap so tien:");
+		sotien = in.nextDouble();
+	}
+	}
