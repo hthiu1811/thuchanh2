@@ -1,0 +1,180 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+class CD {
+    private int maCD;
+    private String tuaCD;
+    private int soBaiHat;
+    private double giaThanh;
+
+    public CD() {
+        this.maCD = 999999;
+        this.tuaCD = "Chưa xác định";
+        this.soBaiHat = 0;
+        this.giaThanh = 0.0;
+    }
+
+    public CD(int maCD, String tuaCD, int soBaiHat, double giaThanh) {
+        this.maCD = maCD;
+        this.tuaCD = tuaCD;
+        this.soBaiHat = soBaiHat;
+        this.giaThanh = giaThanh;
+    }
+
+    public int getMaCD() {
+        return maCD;
+    }
+
+    public void setMaCD(int maCD) {
+        this.maCD = maCD;
+    }
+
+    public String getTuaCD() {
+        return tuaCD;
+    }
+
+    public void setTuaCD(String tuaCD) {
+        if (!tuaCD.isEmpty()) {
+            this.tuaCD = tuaCD;
+        }
+    }
+
+    public int getSoBaiHat() {
+        return soBaiHat;
+    }
+
+    public void setSoBaiHat(int soBaiHat) {
+        if (soBaiHat > 0) {
+            this.soBaiHat = soBaiHat;
+        }
+    }
+
+    public double getGiaThanh() {
+        return giaThanh;
+    }
+
+    public void setGiaThanh(double giaThanh) {
+        if (giaThanh >= 0) {
+            this.giaThanh = giaThanh;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "CD [maCD=" + maCD + ", tuaCD=" + tuaCD + ", soBaiHat=" + soBaiHat + ", giaThanh=" + giaThanh + "]";
+    }
+
+}
+
+class CDList {
+    private CD[] danhSachCD;
+    private int soLuongCD;
+
+    public CDList(int kichThuoc) {
+        danhSachCD = new CD[kichThuoc];
+        soLuongCD = 0;
+    }
+
+    public boolean themCD(CD cd) {
+        if (soLuongCD < danhSachCD.length) {
+            for (int i = 0; i < soLuongCD; i++) {
+                if (danhSachCD[i].getMaCD() == cd.getMaCD()) {
+                    return false;
+                }
+            }
+            danhSachCD[soLuongCD] = cd;
+            soLuongCD++;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getSoLuongCD() {
+        return soLuongCD;
+    }
+
+    public double getTongGiaThanh() {
+        double tongGiaThanh = 0.0;
+        for (int i = 0; i < soLuongCD; i++) {
+            tongGiaThanh += danhSachCD[i].getGiaThanh();
+        }
+        return tongGiaThanh;
+    }
+
+    public void sapXepGiamDanTheoGiaThanh() {
+        Arrays.sort(danhSachCD, 0, soLuongCD, (cd1, cd2) -> Double.compare(cd2.getGiaThanh(), cd1.getGiaThanh()));
+    }
+
+    public void sapXepGiamDanTheoTuaCD() {
+        Arrays.sort(danhSachCD, 0, soLuongCD, (cd1, cd2) -> String.compare(cd2.getTuaCD(), cd1.getTuaCD()));
+    }
+}
+
+public class CDTest {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        CDList cdList = new CDList();
+        boolean exit = false;
+
+        while (!exit) {
+            System.out.println("----- MENU -----");
+            System.out.println("1. Thêm CD");
+            System.out.println("2. Số lượng CD trong danh sách");
+            System.out.println("3. Tổng giá thành của các CD");
+            System.out.println("4. Sắp xếp danh sách giảm dần theo giá thành");
+            System.out.println("5. Sắp xếp danh sách tăng dần theo tựa CD");
+            System.out.println("0. Thoát");
+
+            System.out.print("Vui lòng chọn chức năng: ");
+            int choice = input.nextInt();
+
+            switch (choice) {
+                case 1:
+                    input.nextLine();
+                    System.out.print("Nhập mã CD: ");
+                    int id = input.nextInt();
+                    input.nextLine();
+                    System.out.print("Nhập tựa CD: ");
+                    String title = input.nextLine();
+                    System.out.print("Nhập số bài hát: ");
+                    int numOfTracks = input.nextInt();
+                    System.out.print("Nhập giá thành: ");
+                    double price = input.nextDouble();
+
+                    CD cd = new CD(id, title, numOfTracks, price);
+
+                    if (cdList.addCD(cd)) {
+                        System.out.println("Thêm CD thành công!");
+                    } else {
+                        System.out.println("Thêm CD không thành công, danh sách đã đầy hoặc CD đã tồn tại!");
+                    }
+                    break;
+                case 2:
+                    System.out.println("Số lượng CD trong danh sách: " + cdList.getNumOfCDs());
+                    break;
+                case 3:
+                    System.out.println("Tổng giá thành của các CD: " + cdList.getTotalPrice());
+                    break;
+                case 4:
+                    cdList.sapXepGiamDanTheoGiaThanh();
+                    System.out.println("Sắp xếp danh sách giảm dần theo giá thành thành công!");
+                    break;
+                case 5:
+                    cdList.sapXepGiamDanTheoTuaCD();
+                    System.out.println("Sắp xếp danh sách tăng dần theo tựa CD thành công!");
+                    break;
+                case 0:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại!");
+            }
+
+            System.out.println();
+        }
+
+        System.out.println("Cảm ơn bạn đã sử dụng chương trình!");
+    }
+}
+
