@@ -1,0 +1,25 @@
+
+package bài1;
+import java.util.Scanner;
+public class AccountList {
+	private int count = 0;
+	private Account[] accList;
+	Scanner in = new Scanner(System.in);
+public AccountList(Account[] accList, int count) {
+	this.accList = new Account[10];
+}
+public AccountList(Integer n) {
+	System.out.println("nhap so luong phan tu:");
+	n = in.nextInt();
+	if(n>0) {
+	}else {
+		this.accList = new Account[n];
+		this.count=0;
+	}
+}
+public void add() {
+	Account acc = new Account();
+	accList = new Account[1];
+	acc.nhaptk();
+}
+}
